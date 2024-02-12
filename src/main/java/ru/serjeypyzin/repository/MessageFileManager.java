@@ -9,10 +9,12 @@ import java.nio.file.StandardOpenOption;
 import java.util.stream.Collectors;
 
 public class MessageFileManager implements FileMessageRepository{
+
+    private static final String PATHTOLOG = "src/ru/serjeypyzin/repository/log_file.txt";
     @Override
-    public void SaveLogToFile(String message, String path) {
+    public void SaveLogToFile(String message) {
         try {
-            Path logFilePath = Paths.get(path);
+            Path logFilePath = Paths.get(PATHTOLOG);
 
             if (!Files.exists(logFilePath)) {
                 Files.createFile(logFilePath);
@@ -27,9 +29,9 @@ public class MessageFileManager implements FileMessageRepository{
     }
 
     @Override
-    public String ReadLodFromFile(String path) {
+    public String ReadLodFromFile() {
         try {
-            return Files.lines(Paths.get(path))
+            return Files.lines(Paths.get(PATHTOLOG))
                     .collect(Collectors.joining(System.getProperty("line.separator")));
         } catch (IOException e) {
             System.err.println("Ошибка при чтении лога: " + e.getMessage());

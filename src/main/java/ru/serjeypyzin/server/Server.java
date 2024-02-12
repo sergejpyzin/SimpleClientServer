@@ -19,6 +19,9 @@ public class Server implements ServerManager{
         isRunning = running;
     }
 
+    public void disconnectAllUser() {
+        clientList.forEach(this::disconnectUser);
+    }
 
 
     @Override
@@ -35,4 +38,5 @@ public class Server implements ServerManager{
     public void disconnectUser(Client client) {
         clientList.remove(client);
     }
+
 }

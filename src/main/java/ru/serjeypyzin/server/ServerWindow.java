@@ -2,14 +2,12 @@ package ru.serjeypyzin.server;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ServerWindow extends JFrame {
     private final static int WIDTH = 300;
     private final static int HEIGHT = 450;
 
-    private Server server = new Server();
+    private final Server server = new Server();
 
     public ServerWindow(){
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -40,7 +38,7 @@ public class ServerWindow extends JFrame {
         stopButton.addActionListener(e -> {
             if (server.isWork()) {
                 System.out.println("Остановка сервера...");
-                server.disconnectUser();
+                server.disconnectAllUser();
                 server.setRunning(false);
             } else {
                 System.out.println("Сервер уже остановлен");

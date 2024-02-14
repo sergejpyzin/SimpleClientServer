@@ -1,15 +1,26 @@
 package ru.serjeypyzin.server;
 
 import ru.serjeypyzin.client.Client;
+import ru.serjeypyzin.repository.MessageFileManager;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class Server implements ServerManager{
+public class Server{
 
-    private final List<Client> clientList = new ArrayList<>();
-
+    MessageFileManager fileManager;
+    private final List<Client> clientList;
     private boolean isRunning;
+
+    public Server() {
+        this.fileManager = new MessageFileManager();
+        clientList = new ArrayList<>();
+    }
+
+    public boolean getIsRunning(){
+        return isRunning;
+    }
 
     public boolean isWork (){
         return isRunning;
@@ -19,24 +30,33 @@ public class Server implements ServerManager{
         isRunning = running;
     }
 
-    public void disconnectAllUser() {
-        clientList.forEach(this::disconnectUser);
-    }
 
-
-    @Override
-    public boolean connectUser(Client client) {
+    public boolean connectedUser(Client client) {
         if (!isRunning){
             return false;
         }
         clientList.add(client);
         return true;
-
     }
 
-    @Override
-    public void disconnectUser(Client client) {
-        clientList.remove(client);
+    public void disconnectAllUsers() {
+        Iterator<Client> clientIterator = clientList.iterator();
+        while (clientIterator.hasNext()){
+            Client client = clientIterator.next();
+            clientIterator.remove();
+            client.disconnectFromServer();
+        }
     }
 
+    public String getLog() {
+        return fileManager.ReadLogFromFile();
+    }
+
+    public void SaveLogToFile(String message) {
+        fileManager.SaveLogToFile(message);
+    }
+
+    public void sendAllClients(String message) {
+        clientList.forEach(client -> client.addedInfo(message));
+    }
 }

@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class MessageFileManager implements FileMessageRepository{
 
-    private static final String PATHTOLOG = "src/ru/serjeypyzin/repository/log_file.txt";
+    private static final String PATHTOLOG = "src/main/java/ru/serjeypyzin/repository/log_file.txt";
     @Override
     public void SaveLogToFile(String message) {
         try {
@@ -29,7 +29,7 @@ public class MessageFileManager implements FileMessageRepository{
     }
 
     @Override
-    public String ReadLodFromFile() {
+    public String ReadLogFromFile() {
         try {
             return Files.lines(Paths.get(PATHTOLOG))
                     .collect(Collectors.joining(System.getProperty("line.separator")));
